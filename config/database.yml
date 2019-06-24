@@ -1,0 +1,19 @@
+default: &default
+      adapter: postgresql
+      encoding: unicode
+      pool: 5
+      username: username
+      password: password
+      host:     <%= ENV['IP'] %>
+
+development:
+  <<: *default
+  database: tic_tac_toe_development
+
+test:
+  <<: *default
+  database: tic_tac_toe_test
+
+production:
+  <<: *default
+  database: tic_tac_toe_production

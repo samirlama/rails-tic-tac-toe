@@ -1,0 +1,9 @@
+<%  if session[:player1].nil? %>
+    <h1> Create Player 1 </h1>
+   <% else %>
+    <h1> Create Player 2 </h1>
+<% end %>
+<%= simple_form_for(Player.new, html: { class: 'form-inline' }) do |form| %>
+    <%= form.input :username %><br>
+    <%= form.submit "Submit" , class: "btn btn-primary" %>
+<% end %>
