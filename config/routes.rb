@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources "games" , only:[:index , :create , :new , :show]
   get 'newgame' => "games#newgame"
   get "endgame" => "games#endgame"
-  get "create", to: "games#create", as: :create_new
+  get "create" => "games#create", as: :create_new
   resources "moves" , only:[:index , :new , :create , :destroy]
 
   

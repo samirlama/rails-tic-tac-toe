@@ -15,7 +15,7 @@ class MovesController < ApplicationController
            else
                 session[:active_player] = session[:player2]
            end
-           @active_player = Player.find(session[:active_player])
+           @active_player = Player.find(session[:active_player])    
             respond_to do |format|
                 format.html {}
                 format.json {render json: {all_data: {move: @moves , active_player: @active_player.username , player1: @player1.username , player2: @player2.username} } }
