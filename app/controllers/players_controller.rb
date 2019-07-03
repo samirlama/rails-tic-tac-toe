@@ -2,20 +2,21 @@ class PlayersController < ApplicationController
     def index
     end
     def create
-        if session[:player1].nil? || session[:player12].nil?
+        if session[:player1].nil? || session[:player2].nil?
             @player = Player.create(player_params)
         end
-        
         if session[:player1].nil? 
             session[:player1] = @player.id
-            binding.pry
+            # binding.pry
         else
             session[:player2] = @player.id
         end
         session[:active_player]  = session[:player1]
-        if session[:player1] && session[:player2]
-            redirect_to games_path
+        # binding.pry
+        if session[:player1] || session[:player2]
+            redirect_to new_game_path   
         end
+
         
        
     end

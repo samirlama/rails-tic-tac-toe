@@ -10,16 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_24_080344) do
+ActiveRecord::Schema.define(version: 2019_06_26_071322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "games", force: :cascade do |t|
-    t.integer "move"
-    t.integer "player_id"
+  create_table "game_players", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "gameplayers", force: :cascade do |t|
+    t.bigint "player_id"
+    t.bigint "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_gameplayers_on_game_id"
+    t.index ["player_id"], name: "index_gameplayers_on_player_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "moves", force: :cascade do |t|
+    t.integer "step"
+    t.bigint "game_id"
+    t.bigint "player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_moves_on_game_id"
+    t.index ["player_id"], name: "index_moves_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -28,4 +50,8 @@ ActiveRecord::Schema.define(version: 2019_06_24_080344) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "gameplayers", "games"
+  add_foreign_key "gameplayers", "players"
+  add_foreign_key "moves", "games"
+  add_foreign_key "moves", "players"
 end
