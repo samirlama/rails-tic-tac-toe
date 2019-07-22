@@ -1,8 +1,5 @@
-<% if session[:player1] && session[:player2].blank?  %>
-  <div class="player1"><%= player(session[:player1]) %></div>
-  <% else %>
-<div class="player1"><%= player(session[:player2]) %></div>
-<% end %>  
+<div class="player1-status"></div>
+<div class="player1"><%= player(session[:player]) %></div>
 <h1>Turn of:</h1><h1 id="player"></h1>
 <h1 id="won-status"></h1>
 <div class="block" data-id= 0  ></div>

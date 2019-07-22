@@ -44,6 +44,11 @@ $(function () {
                     //     game_active_player.push(game_player1);
                     //     game_active_player.push(game_player2);
                     // }
+                    if (game_player1 == game_player2) {
+                        $('.player-status').text("Waiting");
+                    } else {
+                        $('.player-status').text("Game Started");
+                    }
 
                     console.log(window.localStorage.getItem("player"));
 
@@ -135,39 +140,43 @@ $(function () {
 
 
 $(document).on('click', '.block', function (e) {
-    if (all_moves.length == 0 && game_player1) {
-        window.localStorage.setItem("player", game_player1);
-    }
-    player1 = $('.player1').text();
-    // $(this).off(event);
-    if (player1 == active_player && window.localStorage.getItem("player") == active_player) {
-        if (game_status == false) {
-            data_id = $(this).attr("data-id");
-            $.ajax({
-                url: "/moves",
-                type: "POST",
-                data: {
-                    move: {
-                        step: data_id,
+    // if (all_moves.length == 0 && game_player1) {
+    //     window.localStorage.setItem("player", game_player1);
+    // }
+    if (game_player1 != game_player2) {
+
+
+        player1 = $('.player1').text();
+        // $(this).off(event);
+        if (player1 == active_player) { //window.localStorage.getItem("player") == active_player
+            if (game_status == false) {
+                data_id = $(this).attr("data-id");
+                $.ajax({
+                    url: "/moves",
+                    type: "POST",
+                    data: {
+                        move: {
+                            step: data_id,
+                        }
+                    },
+                    dataType: "json",
+                    success: function () {
+
                     }
-                },
-                dataType: "json",
-                success: function () {
+                })
 
-                }
-            })
 
+            }
+            // if (all_moves.length % 2 == 0) {
+            //     window.localStorage.setItem("player", game_player2);
+            // } else {
+            //     window.localStorage.setItem("player", game_player1);
+            // }
 
         }
-        if (all_moves.length % 2 == 0) {
-            window.localStorage.setItem("player", game_player2);
-        } else {
-            window.localStorage.setItem("player", game_player1);
-        }
 
-    }
 
-    // if (count % 2 != 0) {
+    } // if (count % 2 != 0) {
     //     game_active_player[i++];
     // } else {
     //     game_active_player[i--];
