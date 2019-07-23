@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "endgame" => "games#endgame"
   get "create" => "games#create", as: :create_new
   resources "moves" , only:[:index , :new , :create , :destroy]
+  resources "activeplayers" , only: [:update]
 
   
 end

@@ -1,6 +1,4 @@
 class PlayersController < ApplicationController
-    def index
-    end
     def create
         # if session[:player1].nil? || session[:player2].nil?
         #     @player = Player.create(player_params)
@@ -18,8 +16,13 @@ class PlayersController < ApplicationController
         # end 
         if  session[:player].nil?
             @player = Player.create(player_params)
-            session[:player] = @player.id
-            redirect_to new_game_path
+            if @player.valid?
+                session[:player] = @player.id
+                redirect_to new_game_path
+            else 
+                flash[:notice] = "Username can't be empty."
+                redirect_to "/"
+            end
         end
         
        

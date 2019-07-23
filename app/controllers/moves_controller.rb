@@ -1,8 +1,6 @@
 class MovesController < ApplicationController
     
     include ApplicationHelper
-     
-
     def index
             # @moves = Move.where("player_id=? OR player_id = ?",session[:player1] , session[:player2])
             @moves = current_game.moves.all
@@ -27,7 +25,6 @@ class MovesController < ApplicationController
                 format.html {}
                 format.json {render json: {all_data: {move: @moves , active_player: @active_player.username , player1: @player1.username , player2: @player2.username} } }
             end
-    
     end
     def create
         @move = current_game.moves.new(move_params)
