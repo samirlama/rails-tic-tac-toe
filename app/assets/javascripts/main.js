@@ -22,138 +22,140 @@ var moves_count_player2;
 game_status = false;
 $(function () {
     initInterval();
+    $('.block').on('click', blockClick);
+});
 
-    function registerMoves(data) {
-        data.move.forEach(function (d) {
-            if (!all_moves.includes(d.step)) {
-                all_moves.push(d.step);
-                if (data.move.length % 2 != 0) {
-                    if (!player1_moves.includes(d.step) && !player2_moves.includes(d.step)) {
-                        player1_moves.push(d.step)
-                        console.log("player1" + player1_moves);
-                        if (player1_moves.length >= 1) {
-                            console.log("enter1");
-                            player1_moves.forEach(function (f) {
-                                $data_id = f;
-                                // $block = $('.block').attr("data-id", $data_id);
-                                $block = $(".block[data-id='" + $data_id + "']")[0];
-                                $($block).html("X");
-                            })
-                        }
-                        checkWinningStatus(player1_moves, data.player1, moves_count_player1);
+function blockClickOff() {
+    $('.block').off();
+}
 
-                    }
-                } else {
-                    if (!player2_moves.includes(d.step) && !player1_moves.includes(d.step)) {
-                        player2_moves.push(d.step)
-                        console.log("player2" + player2_moves)
-                        if (player2_moves.length >= 1) {
-                            player2_moves.forEach(function (f) {
-                                $data_id = f;
-                                // $block = $('.block').attr("data-id", $data_id);
-                                $block = $(".block[data-id='" + $data_id + "']")[0];
-                                $($block).html("0");
-                            })
-                        }
-                        checkWinningStatus(player2_moves, data.player2, moves_count_player2);
-                        drawStatus();
-                    }
-                }
-            }
-        })
-    }
+function blockClickOn() {
+    setTimeout(function () {
+        $('.block').on('click', blockClick);
+    }, 3000);
+}
 
-    function assignPlayer(player1, player2, activeplayer) {
-        $('#player').text(activeplayer)
-        active_player = activeplayer;
-        game_player1 = player1;
-        game_player2 = player2;
-        if (game_player1 == game_player2) {
-            $('.player-status').text("Waiting");
-        } else {
-            $('.player-status').text("Game Started");
-        }
-    }
-
-    function initInterval() {
-        setInterval(function () {
-            player1 = $('.player').text();
-
+function blockClick() {
+    blockClickOff();
+    if (game_player1 != game_player2) {
+        player1 = $('.player').text();
+        if (player1 == active_player) { //window.localStorage.getItem("player") == active_player
             if (game_status == false) {
+                data_id = $(this).attr("data-id");
                 $.ajax({
-                    url: "/moves.json",
-                    success: function (data) {
-                        assignPlayer(data.all_data.player1, data.all_data.player2, data.all_data.active_player)
-                        registerMoves(data.all_data);
+                    url: "/moves",
+                    type: "POST",
+                    data: {
+                        move: {
+                            step: data_id,
+                        }
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function () {
+
                     }
                 })
             }
-        }, 1000);
+        }
+        if (player1 == game_player1) {
+            $(this).html("X");
+        } else {
+            $(this).html("0");
+        }
+        blockClickOn();
     }
+}
 
-    function checkWinningStatus(player_moves, player, count) {
-        for (var i = 0; i < 8; i++) {
-            count = 0;
-            for (var j = 0; j < 3; j++) {
-                if (player_moves.includes(goals[i][j])) {
-                    count++;
+function registerMoves(data) {
+    data.move.forEach(function (d) {
+        if (!all_moves.includes(d.step)) {
+            all_moves.push(d.step);
+            if (data.move.length % 2 != 0) {
+                if (!player1_moves.includes(d.step) && !player2_moves.includes(d.step)) {
+                    player1_moves.push(d.step)
+                    console.log("player1" + player1_moves);
+                    if (player1_moves.length >= 1) {
+                        console.log("enter1");
+                        player1_moves.forEach(function (f) {
+                            $data_id = f;
+                            // $block = $('.block').attr("data-id", $data_id);
+                            $block = $(".block[data-id='" + $data_id + "']")[0];
+                            $($block).html("X");
+                        })
+                    }
+                    checkWinningStatus(player1_moves, data.player1, moves_count_player1);
+                    drawStatus();
+
+                }
+            } else {
+                if (!player2_moves.includes(d.step) && !player1_moves.includes(d.step)) {
+                    player2_moves.push(d.step)
+                    console.log("player2" + player2_moves)
+                    if (player2_moves.length >= 1) {
+                        player2_moves.forEach(function (f) {
+                            $data_id = f;
+                            // $block = $('.block').attr("data-id", $data_id);
+                            $block = $(".block[data-id='" + $data_id + "']")[0];
+                            $($block).html("0");
+                        })
+                    }
+                    checkWinningStatus(player2_moves, data.player2, moves_count_player2);
                 }
             }
-            if (count == 3) {
-                game_status = true;
-                $('#player').hide();
-                $('#modal-btn').trigger("click");
-                $('.modal-title').text(player + " won");
+        }
+    })
+}
+
+function assignPlayer(player1, player2, activeplayer) {
+    $('#player').text(activeplayer)
+    active_player = activeplayer;
+    game_player1 = player1;
+    game_player2 = player2;
+    if (game_player1 == game_player2) {
+        $('.player-status').text("Waiting");
+    } else {
+        $('.player-status').text("Game Started");
+    }
+}
+
+function initInterval() {
+    setInterval(function () {
+        player1 = $('.player').text();
+
+        if (game_status == false) {
+            $.ajax({
+                url: "/moves.json",
+                success: function (data) {
+                    assignPlayer(data.all_data.player1, data.all_data.player2, data.all_data.active_player)
+                    registerMoves(data.all_data);
+                }
+            })
+        }
+    }, 1000);
+}
+
+function checkWinningStatus(player_moves, player, count) {
+    for (var i = 0; i < 8; i++) {
+        count = 0;
+        for (var j = 0; j < 3; j++) {
+            if (player_moves.includes(goals[i][j])) {
+                count++;
             }
         }
-    }
-
-    function drawStatus() {
-        if (all_moves.length == 9 && game_status == false) {
+        if (count == 3) {
+            game_status = true;
             $('#player').hide();
             $('#modal-btn').trigger("click");
-            $('.modal-title').text("It's a draw");
+            $('.modal-title').text(player + " won");
         }
     }
+}
 
-    $('.block').on('click', blockClick);
-    // if (all_moves.length == 0 && game_player1) {
-    //     window.localStorage.setItem("player", game_player1);
-    // }
-    function blockClick() {
-        $('.block').off();
-
-        if (game_player1 != game_player2) {
-            player1 = $('.player').text();
-            if (player1 == active_player) { //window.localStorage.getItem("player") == active_player
-                if (game_status == false) {
-                    data_id = $(this).attr("data-id");
-                    $.ajax({
-                        url: "/moves",
-                        type: "POST",
-                        data: {
-                            move: {
-                                step: data_id,
-                            }
-                        },
-                        dataType: "json",
-                        async: false,
-                        success: function () {
-
-                        }
-                    })
-                }
-            }
-            if (player1 == game_player1) {
-                $(this).html("X");
-            } else {
-                $(this).html("0");
-            }
-            setTimeout(function () {
-                $('.block').on('click', blockClick);
-            }, 3000);
-
-        }
-
+function drawStatus() {
+    if (all_moves.length == 9 && game_status == false) {
+        $('#player').hide();
+        $('#modal-btn').trigger("click");
+        $('.modal-title').text("It's a draw");
     }
-})
+}

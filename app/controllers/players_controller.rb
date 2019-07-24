@@ -15,14 +15,37 @@ class PlayersController < ApplicationController
         #     redirect_to new_game_path   
         # end 
         if  session[:player].nil?
-            @player = Player.create(player_params)
-            if @player.valid?
-                session[:player] = @player.id
-                redirect_to new_game_path
-            else 
-                flash[:notice] = "Username can't be empty."
-                redirect_to "/"
+         @new_player = Player.new(player_params)
+            if Gameplayer.count  == 0
+                if Gameplayer.last.status == "waiting"
+                    @player_id = Gameplayer.last.player_id
+                    @player = Player.find(@player_id)
+                    if @player.username == player_params[:username]
+                        flash[:notice] = "Username already taken for this Game"
+                        redirect_to "/"
+                    else
+                        if @new_player.valid?
+                            @new_player.save
+                            session[:player] = @player.id
+                            redirect_to new_game_path
+                        else 
+                            flash[:notice] = "Username can't be empty."
+                            redirect_to "/"
+                        end
+                    end
+                end
+            else
+                if @new_player.valid?
+                    @new_player.save
+                    session[:player] = @player.id
+                    redirect_to new_game_path
+                else 
+                    flash[:notice] = "Username can't be empty."
+                    redirect_to "/"
+                end
             end
+
+            
         end
         
        
