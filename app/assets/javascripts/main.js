@@ -22,7 +22,7 @@ var moves_count_player2;
 game_status = false;
 $(function () {
     initInterval();
-    $('.block').on('click', blockClick);
+    $('.block').on('click', updateMoves);
 });
 
 function blockClickOff() {
@@ -31,15 +31,16 @@ function blockClickOff() {
 
 function blockClickOn() {
     setTimeout(function () {
-        $('.block').on('click', blockClick);
+        $('.block').on('click', updateMoves);
     }, 3000);
 }
 
-function blockClick() {
-    blockClickOff();
+function updateMoves() {
+
     if (game_player1 != game_player2) {
         player1 = $('.player').text();
         if (player1 == active_player) { //window.localStorage.getItem("player") == active_player
+            blockClickOff();
             if (game_status == false) {
                 data_id = $(this).attr("data-id");
                 $.ajax({
@@ -51,19 +52,18 @@ function blockClick() {
                         }
                     },
                     dataType: "json",
-                    async: false,
                     success: function () {
 
                     }
                 })
             }
+            if (player1 == game_player1) {
+                $(this).html("X");
+            } else {
+                $(this).html("0");
+            }
+            blockClickOn();
         }
-        if (player1 == game_player1) {
-            $(this).html("X");
-        } else {
-            $(this).html("0");
-        }
-        blockClickOn();
     }
 }
 

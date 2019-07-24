@@ -14,9 +14,10 @@ class PlayersController < ApplicationController
         # if session[:player1] || session[:player2]
         #     redirect_to new_game_path   
         # end 
-        if  session[:player].nil?
+       
+       
          @new_player = Player.new(player_params)
-            if Gameplayer.count  == 0
+            if Gameplayer.count  != 0
                 if Gameplayer.last.status == "waiting"
                     @player_id = Gameplayer.last.player_id
                     @player = Player.find(@player_id)
@@ -26,30 +27,35 @@ class PlayersController < ApplicationController
                     else
                         if @new_player.valid?
                             @new_player.save
-                            session[:player] = @player.id
+                            session[:player] = @new_player.id
                             redirect_to new_game_path
                         else 
                             flash[:notice] = "Username can't be empty."
                             redirect_to "/"
                         end
                     end
+                else
+                    if @new_player.valid?
+                        @new_player.save
+                        session[:player] = @new_player.id
+                        redirect_to new_game_path
+                    else 
+                        flash[:notice] = "Username can't be empty."
+                        redirect_to "/"
+                    end
                 end
             else
                 if @new_player.valid?
                     @new_player.save
-                    session[:player] = @player.id
+                    session[:player] = @new_player.id
                     redirect_to new_game_path
                 else 
                     flash[:notice] = "Username can't be empty."
                     redirect_to "/"
                 end
             end
-
-            
-        end
-        
-       
     end
+
     private
     def player_params
         params.require(:player).permit(:username)
