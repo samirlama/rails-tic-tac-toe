@@ -1,7 +1,18 @@
-<%  if session[:player].nil? %>
-    <h1>Sign in to Play </h1>
-<% end %>
-<%= simple_form_for(Player.new, html: { class: 'form-inline' }) do |form| %>
-    <%= form.input :username %><br>
-    <%= form.submit "Submit" , class: "btn btn-primary" %>
-<% end %>
+<div class="row">
+  <div class="col-sm-5">
+    <h2>LeaderBoard </h2>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col"> Username <%= link_to '<span class="glyphicon glyphicon-triangle-bottom"></span>'.html_safe , players_path(sort: "name_desc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top"></span>'.html_safe , players_path(sort: "name_asc") , remote: true %></th>
+          <th scope="col">Wins<%= link_to '<span class="glyphicon glyphicon-triangle-bottom"></span>'.html_safe , players_path(sort: "win_asc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top"></span>'.html_safe , players_path(sort: "win_desc") , remote: true %></th>
+        </tr>
+      </thead>
+      
+     
+          <%= render partial: "sorted" , locals: {game:  @distinct_game_player} %>
+      
+      
+    </table>
+  </div>
+</div>

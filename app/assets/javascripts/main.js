@@ -297,29 +297,31 @@ $(function () {
         }
 
         var registerMoves = function (e) {
+            debugger
             console.log(e);
             if (game_player1 != game_player2) {
                 player1 = $('.player').text();
+                debugger
                 if (player1 == active_player) { //window.localStorage.getItem("player") == active_player
                     blockClickOff();
-                    if (game_status == false) {
-                        data_id = $(e.currentTarget).attr("data-id");
-
-                        console.log(data_id);
-                        $.ajax({
-                            url: "/moves",
-                            type: "POST",
-                            dataType: "JSON",
-                            data: {
-                                move: {
-                                    step: data_id
-                                }
-                            },
-                            success: function () {
-
+                    // debugger
+                    // if (game_status == false) {
+                    data_id = $(e.currentTarget).attr("data-id");
+                    console.log(data_id);
+                    $.ajax({
+                        url: "/moves",
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            move: {
+                                step: data_id
                             }
-                        })
-                    }
+                        },
+                        success: function () {
+
+                        }
+                    })
+
                     if (player1 == game_player1) {
                         $(e.currentTarget).html("X");
                     } else {

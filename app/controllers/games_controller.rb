@@ -48,8 +48,34 @@ class GamesController < ApplicationController
     #    redirect_to create_new_path
     # end
     def endgame
+        # if current_game.winner.present?
+        #     # @gameplayer = Gameplayer.where(game_id: current_game).where.not(player_id: session[:active_player])
+        #     @gameplayer = Gameplayer.where(game_id: current_game)
+        #     if current_game.moves.count == 9
+        #         @game = current_game.update(winner: 0)
+        #     else 
+             
+        #         @player_won_id = @gameplayer[0].player_id
+        #         @game = current_game.update(winner: @player_won_id)
+        #     end
+
+        # session[:player] = nil
+        # session[:game] = nil
+        # redirect_to "/" 
+        # else
+        # if Gameplayer.where(game_id: current_game , player_id: session[:active_player])[0].game_status.blank?
+            @gameplayer_lose = Gameplayer.where(player_id: session[:active_player] , game_id: current_game)
+            @gameplayer_lose.update(game_status: "lose")
+            @gameplayer_won = Gameplayer.where(game_id: current_game).where.not(player_id: session[:active_player] )
+            byebug
+            @gameplayer_won.update(game_status:  "win")
+            
+        
             session[:player] = nil
             session[:game] = nil
+            session[:active_player] = nil
             redirect_to "/" 
+                   
+         
     end
 end

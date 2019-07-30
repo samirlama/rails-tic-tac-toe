@@ -17,6 +17,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+
 .block {
     height: 100px;
     width: 100px;
@@ -31,4 +32,8 @@
 
 .player1 {
     font-size: 30px;
+}
+
+.hide {
+    display: none;
 }
