@@ -3,6 +3,7 @@ class Player < ApplicationRecord
     has_many :games , through: :gameplayers
     has_many :moves , dependent: :destroy
     validates :username , presence: true 
+    
    
     # def sort_by(sort_by_order)
     #     if(sort_by_order == "name_asc")

@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-sm-5">
+    <h2>LeaderBoard </h2>
+    <%= form_tag(static_pages_path, method: :get ,remote: true ,  class:  "navbar-form navbar-left") do %>
+      <div class="input-group">
+        <%= text_field_tag :search , params[:search], class: ' form-control' , placeholder: 'Find player' %>
+        <div class="input-group-btn">
+          <%= submit_tag 'Search' ,  :name=> nil , class: 'btn btn-primary search-button'  %>
+        </div>
+      </div>
+      <% end %>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col"> Username
+            <%= link_to '<span class="glyphicon glyphicon-triangle-bottom username-downarrow"></span>'.html_safe ,static_pages_path(sort: "name_desc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top username-uparrow"></span>'.html_safe , static_pages_path(sort: "name_asc") , remote: true %>
+          </th>
+          <th scope="col">
+            Wins<%= link_to '<span class="glyphicon glyphicon-triangle-bottom win-downarrow"></span>'.html_safe , static_pages_path(sort: "win_asc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top win-uparrow"></span>'.html_safe , static_pages_path(sort: "win_desc") , remote: true %>
+          </th>
+        </tr>
+      </thead>
+      <%= render partial: "sorted" , locals: {game:  @distinct_game_player} %>
+    </table>
+  </div>
+</div>

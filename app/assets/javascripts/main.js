@@ -334,5 +334,5 @@ $(function () {
         $('.block').on('click', registerMoves);
     }
     const newGame = new GameTicTacToe();
-    newGame.initInterval();
+    // newGame.initInterval();
 })

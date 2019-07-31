@@ -1,15 +1,7 @@
 class PlayersController < ApplicationController
     def index
-        if !params[:sort].nil?
-            @distinct_game_player = Gameplayer.sort_by(params[:sort])
-        else
-            @distinct_game_player = Gameplayer.where(game_status: 'win').joins(:player).group(:player_id).select("player_id, count(gameplayers.id) as win, Max(players.username) as name")
-        end
-
-        respond_to do |format|
-            format.html {}
-            format.js {}
-        end
+       
+       @players = Player.all.order('username ASC')
 
          
         # @games = @game.sort_by {|g| g.count('Distinct g.player_id') }
@@ -31,7 +23,7 @@ class PlayersController < ApplicationController
         #     redirect_to new_game_path   
         # end 
        
-       
+      
         @new_player = Player.new(player_params)
         @game_player = Player.find_by(username: player_params[:username]) 
         if Player.where(username: player_params[:username]).exists?
@@ -105,9 +97,33 @@ class PlayersController < ApplicationController
         #         end
         #     end
     end
+    def deactivate
+        # Player.update_all({status: false} , {id: params[:player_ids]})
+        if params[:commit] == "Deactivate"
+            Player.where(id: params[:player_ids]).update_all(status: false)
+        else
+           
+            Player.where(id: params[:player_ids]).update_all(status: true)
+        end
+
+        # params[:player_ids].each do |id|
+        #     if Player.find(id).status == true
+        #         Player.find(id).update(status: false)
+        #     else
+        #         Player.find(id).update(status: true)
+                
+            
+        # end
+        redirect_to players_path
+
+    end
 
     private
     def player_params
         params.require(:player).permit(:username)
+        
     end
+    
+ 
+   
 end

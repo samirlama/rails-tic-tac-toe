@@ -15,5 +15,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require players
+//= require static_pages
 //= require turbolinks
 //= require_tree .

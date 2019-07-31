@@ -1,18 +1,28 @@
 <div class="row">
   <div class="col-sm-5">
-    <h2>LeaderBoard </h2>
+    <h2>List of Players</h2>
+    <%= form_tag deactivate_players_path , method: :put do %>
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th scope="col"> Username <%= link_to '<span class="glyphicon glyphicon-triangle-bottom"></span>'.html_safe , players_path(sort: "name_desc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top"></span>'.html_safe , players_path(sort: "name_asc") , remote: true %></th>
-          <th scope="col">Wins<%= link_to '<span class="glyphicon glyphicon-triangle-bottom"></span>'.html_safe , players_path(sort: "win_asc") , remote: true %><%= link_to '<span class="glyphicon glyphicon-triangle-top"></span>'.html_safe , players_path(sort: "win_desc") , remote: true %></th>
+        <th>Select All <%= check_box_tag "select_all" , "0" , false , class: "toggle-check" %></th>
+          <th scope="col"> Player's Name</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
-      
-     
-          <%= render partial: "sorted" , locals: {game:  @distinct_game_player} %>
-      
-      
+      <% @players.each do |player| %>
+      <tbody>
+        <tr class="sort-tr-tag"> 
+        <td><%= check_box_tag "player_ids[]" , player.id  ,false  %></td>
+          <th scope="row"><%= player.username%></th>
+          <td class="player-status"><%=  player.status ? "Active": "Inactive" %></td>
+         
+        </tr>
+      </tbody>
+      <% end %>
     </table>
+    <%= submit_tag "Deactivate"  , class: "btn btn-danger"%>
+    <%= submit_tag "Activate"  , class: "btn btn-success"%>
+    <% end %>
   </div>
 </div>
