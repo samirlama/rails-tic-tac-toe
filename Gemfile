@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.3.4'
+ruby '2.4.4'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'pry', '~> 0.12.2'
 gem 'font-awesome-rails'
