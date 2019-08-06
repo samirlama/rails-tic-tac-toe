@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :players do 
     collection do 
       put :deactivate
+      put :update_status
     end
   end
   resources "games" , only:[:index , :create , :new , :show]

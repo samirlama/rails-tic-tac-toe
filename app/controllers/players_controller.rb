@@ -1,9 +1,27 @@
 class PlayersController < ApplicationController
     def index
        
-       @players = Player.all.order('username ASC')
+       
+       @players = Player.all.order("username ASC").paginate(page: params[:page], per_page: 2)
+       unless params[:search].nil?
+            @players = Player.all.order("username ASC").where('username LIKE ?' , "%#{params[:search]}%").paginate(page: params[:page], per_page: 2)
+            # binding.pry
+       end
+       unless params[:sort].nil?
+            if params[:sort] == "active"
+                @players = Player.all.order("username ASC").where(status: true).paginate(page: params[:page], per_page: 2)
+               
+            else
+                @players = Player.all.order("username ASC").where(status: false).paginate(page: params[:page], per_page: 2)
+                
+            end
 
-         
+        end
+
+       respond_to do |format|
+            format.html {}
+            format.js {}
+        end
         # @games = @game.sort_by {|g| g.count('Distinct g.player_id') }
         # @game_win_table = @game.all.group(:player_id).select("COUNT(DISTINCT player_id), player_id")
     end
@@ -116,6 +134,10 @@ class PlayersController < ApplicationController
         # end
         redirect_to players_path
 
+    end
+    def update_status
+        username = params[:username]
+        Player.where(username: username).update(status: params[:status])
     end
 
     private

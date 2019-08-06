@@ -18,3 +18,9 @@
 //= require static_pages
 //= require turbolinks
 //= require_tree .
+
+
+$('.pagination a').on('click', function () {
+    $.getScript(this.href);
+    return false
+})

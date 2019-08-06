@@ -3,7 +3,7 @@
 // You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-$(function () {
+$(document).on('turbolinks:load', function () {
     $('.username-uparrow').on('click', function () {
         $(this).hide();
         $('.username-downarrow').show();

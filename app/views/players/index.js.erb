@@ -1,0 +1,9 @@
+
+
+$('tbody').remove();
+$('table').append("<%= escape_javascript render partial: 'sorted' , locals: {players: @players} %>")
+$("[data-toggle='toggle']").bootstrapToggle('destroy')
+$("[data-toggle='toggle']").bootstrapToggle();
+
+$('.pages').html("<%= j(will_paginate(@players)) %>");
+$('.pagination a').attr('data-remote' , 'true');

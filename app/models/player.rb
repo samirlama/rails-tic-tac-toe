@@ -5,7 +5,7 @@ class Player < ApplicationRecord
     validates :username , presence: true 
     
    
-    # def sort_by(sort_by_order)
+    # def sort_by(sort_by_order)s
     #     if(sort_by_order == "name_asc")
     #         where(game_status: 'win').joins(:player).group(:player_id).select("player_id, count(id) as win, Max(players.username) as name").order("name asc")
   

@@ -1,28 +1,38 @@
+Sort by: <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+    <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><%=link_to "Active" , players_path(sort: "active" , search: params[:search] ?  params[:search] : nil)  , remote: true%></li>
+    <li><%=link_to "Inactive" , players_path(sort: "inactive" , search: params[:search] ?  params[:search] : nil) , remote: true %></li>
+  </ul>
+</div>
 <div class="row">
   <div class="col-sm-5">
     <h2>List of Players</h2>
+    <%= form_tag(players_path ,  method: :get ,  class:  "navbar-form navbar-left") do %>
+    <div class="input-group">
+      <%= text_field_tag :search , params[:search], class: ' form-control' , placeholder: 'Find player' %>
+      <div class="input-group-btn">
+        <%= submit_tag 'Search' ,  :name=> nil , class: 'btn btn-primary search-button'  %>
+      </div>
+    </div>
+    <% end %>
     <%= form_tag deactivate_players_path , method: :put do %>
     <table class="table">
       <thead class="thead-dark">
         <tr>
-        <th>Select All <%= check_box_tag "select_all" , "0" , false , class: "toggle-check" %></th>
+          <th>Select All <%= check_box_tag "select_all" , "0" , false , class: "toggle-check" %></th>
           <th scope="col"> Player's Name</th>
           <th scope="col">Status</th>
         </tr>
       </thead>
-      <% @players.each do |player| %>
-      <tbody>
-        <tr class="sort-tr-tag"> 
-        <td><%= check_box_tag "player_ids[]" , player.id  ,false  %></td>
-          <th scope="row"><%= player.username%></th>
-          <td class="player-status"><%=  player.status ? "Active": "Inactive" %></td>
-         
-        </tr>
-      </tbody>
-      <% end %>
+      <%= render partial: "sorted" , locals: {players: @players} %>
     </table>
     <%= submit_tag "Deactivate"  , class: "btn btn-danger"%>
     <%= submit_tag "Activate"  , class: "btn btn-success"%>
     <% end %>
   </div>
+</div>
+<div class="pages">
+<%= will_paginate @players %>
 </div>

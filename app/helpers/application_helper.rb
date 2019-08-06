@@ -13,4 +13,5 @@ module ApplicationHelper
         @player_count = @player.where(player_id: player).count
         return @player_count
     end
+    
 end
