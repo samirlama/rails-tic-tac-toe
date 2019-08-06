@@ -334,13 +334,7 @@ $(function () {
         $('.block').on('click', registerMoves);
     }
     const newGame = new GameTicTacToe();
-    // newGame.initInterval();
+    newGame.initInterval();
 
-    for (let i = 0; i < $('.player-status').length; i++) {
-        if ($('.player-status').eq(i).find('span').text() == "Active") {
-            $('.player-status').eq(i).children('.checkbox').children('label').children('div').removeClass("btn-default off").addClass('btn-primary')
 
-        }
-
-    }
 })

@@ -9,7 +9,7 @@ Sort by: <div class="dropdown">
 <div class="row">
   <div class="col-sm-5">
     <h2>List of Players</h2>
-    <%= form_tag(players_path ,  method: :get ,  class:  "navbar-form navbar-left") do %>
+    <%= form_tag(players_path ,  method: :get ,remote: true ,   class:  "navbar-form navbar-left") do %>
     <div class="input-group">
       <%= text_field_tag :search , params[:search], class: ' form-control' , placeholder: 'Find player' %>
       <div class="input-group-btn">
@@ -17,7 +17,7 @@ Sort by: <div class="dropdown">
       </div>
     </div>
     <% end %>
-    <%= form_tag deactivate_players_path , method: :put do %>
+    <%= form_tag deactivate_players_path ,remote: true ,  method: :put do %>
     <table class="table">
       <thead class="thead-dark">
         <tr>

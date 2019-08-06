@@ -8,9 +8,9 @@
       <div class="checkbox">
         <label>
           <% if player.status %>
-          <input type="checkbox" checked data-toggle="toggle" class="status-checkbox">
+          <input type="checkbox" checked data-toggle="toggle" class="status-checkbox" value="<%= player.id %>">
           <% else %>
-          <input type="checkbox" data-toggle="toggle" class="status-checkbox">
+          <input type="checkbox" data-toggle="toggle" class="status-checkbox" value="<%= player.id %>">
           <% end %>
         </label>
       </div>

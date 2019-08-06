@@ -5,5 +5,5 @@ $('table').append("<%= escape_javascript render partial: 'sorted' , locals: {pla
 $("[data-toggle='toggle']").bootstrapToggle('destroy')
 $("[data-toggle='toggle']").bootstrapToggle();
 
-$('.pages').html("<%= j(will_paginate(@players)) %>");
+$('.pages').html("<%= j(will_paginate(@players , remote: true)) %>");
 $('.pagination a').attr('data-remote' , 'true');

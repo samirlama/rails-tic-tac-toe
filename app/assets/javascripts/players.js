@@ -16,9 +16,30 @@ $(document).on('turbolinks:load', function () {
             $(this).addClass("toggle-check");
         }
     })
+    $('.pagination a').attr('data-remote', 'true');
 
 
+    $('input[type=submit]').on('click', function (e) {
 
+        if ($(this).hasClass('btn-success')) {
+            checked = $('#player_ids_:checked');
+            var ids = [];
+            checked.each(function (i, e) {
+                ids.push($(this).val());
+            })
+            $.ajax({
+                url: '/players/deactivate',
+                type: "PUT",
+                data: {
+                    player_ids: ids,
+                    commit: "Deactivate"
+                }
+            })
+
+
+        }
+
+    })
 
     // for (let i = 0; i < $('.player-status').length; i++) {
     //     if ($('.player-status').eq(i).find('span').text() == "Active") {
@@ -39,11 +60,11 @@ $(document).on('turbolinks:load', function () {
 
     //     
     // })
-    $("[data-toggle='toggle']").bootstrapToggle('destroy')
+    $("[data-toggle='toggle']").bootstrapToggle('destroy');
     $("[data-toggle='toggle']").bootstrapToggle();
 
     $(document).on('click', '.toggle', function () {
-        alert("dadasd");
+        //better do it with id
         var user_name = $(this).closest('.player-status').siblings('.player-name').text();
         if ($(this).closest('.player-status').find('span').text() == "Active") {
             $.ajax({
@@ -64,8 +85,6 @@ $(document).on('turbolinks:load', function () {
                     status: true,
                     username: user_name
                 }
-
-
             })
             $(this).closest('.player-status').find('span').first().text("Active");
         }
