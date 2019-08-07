@@ -5,7 +5,10 @@
 
 
 $(document).on('turbolinks:load', function () {
+    //pagination  with remote true
+    $('.pagination a').attr('data-remote', 'true');
 
+    //all checkbox selection with selectall
     $("#select_all").on('click', function () {
         if ($(this).hasClass("toggle-check")) {
             $('input[type=checkbox]').prop('checked', true);
@@ -16,11 +19,9 @@ $(document).on('turbolinks:load', function () {
             $(this).addClass("toggle-check");
         }
     })
-    $('.pagination a').attr('data-remote', 'true');
 
-
+    //activation and deactivation with ajax
     $('input[type=submit]').on('click', function (e) {
-
         if ($(this).hasClass('btn-success')) {
             checked = $('#player_ids_:checked');
             var ids = [];
@@ -35,58 +36,59 @@ $(document).on('turbolinks:load', function () {
                     commit: "Deactivate"
                 }
             })
-
-
         }
-
     })
 
-    // for (let i = 0; i < $('.player-status').length; i++) {
-    //     if ($('.player-status').eq(i).find('span').text() == "Active") {
-    //         $('.player-status').eq(i).find('span').css("color", "green");
-    //     } else {
-    //         $('.player-status').eq(i).find('span').css("color", "red");
-    //     }
-    // }
+    //text added in dropdown sort
     $('li > a').on('click', function () {
         $caret = '<span class="caret"></span>';
         var a_text = $(this).text();
         $('.dropdown-toggle').css("padding", "10px");
         $('.dropdown-toggle').text(a_text);
         $('.dropdown-toggle').append($caret);
-
     })
-    // $(document).on('page:change', function () {
 
-    //     
-    // })
+    //for toggling of button
     $("[data-toggle='toggle']").bootstrapToggle('destroy');
     $("[data-toggle='toggle']").bootstrapToggle();
 
+    //palyer status changed with toggle button with ajax
     $(document).on('click', '.toggle', function () {
-        //better do it with id
+
+        self = this
         var user_name = $(this).closest('.player-status').siblings('.player-name').text();
         if ($(this).closest('.player-status').find('span').text() == "Active") {
-            $.ajax({
-                url: "/players/update_status",
-                type: "PUT",
-                data: {
-                    status: false,
-                    username: user_name
-                }
-            })
 
-            $(this).closest('.player-status').find('span').first().text("Inactive");
-        } else {
             $.ajax({
-                url: "/players/update_status",
-                type: "PUT",
-                data: {
-                    status: true,
-                    username: user_name
-                }
-            })
-            $(this).closest('.player-status').find('span').first().text("Active");
+                    url: "/players/update_status",
+                    type: "PUT",
+                    data: {
+                        status: false,
+                        username: user_name
+                    }
+                })
+                .done(function () {
+                    $(self).closest('.player-status').children('span').text("Inactive")
+                    $(self).closest('.player-status').children('span').removeClass().addClass('inactive');
+                })
+
+
+        } else {
+
+            $.ajax({
+                    url: "/players/update_status",
+                    type: "PUT",
+                    data: {
+                        status: true,
+                        username: user_name
+                    }
+                })
+                .done(function () {
+                    $(self).closest('.player-status').children('span').text("Active");
+                    $(self).closest('.player-status').children('span').removeClass().addClass('active');
+                })
+
+
         }
     })
 

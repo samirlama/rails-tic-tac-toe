@@ -4,6 +4,8 @@
 
 
 $(document).on('turbolinks:load', function () {
+    $('.username-uparrow').hide();
+    $('.win-uparrow').hide();
     $('.username-uparrow').on('click', function () {
         $(this).hide();
         $('.username-downarrow').show();

@@ -3,8 +3,8 @@
   <tr class="sort-tr-tag">
     <td><%= check_box_tag "player_ids[]" , player.id  ,false  %></td>
     <th scope="row" class="player-name"><%= player.username%></th>
-    <td class="player-status" style='color:<%= player.status ? "green" : "red" %>' ;>
-      <span><%= player.status ? "Active" : "Inactive" %></span>
+    <td class="player-status"  >
+      <span class=<%= player.status ? 'active' : 'inactive'; %>> <%= player.status ? "Active" : "Inactive" %></span>
       <div class="checkbox">
         <label>
           <% if player.status %>

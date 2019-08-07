@@ -1,5 +1,5 @@
-Sort by: <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+<h4>Sort by:</h4> <div class="dropdown">
+  <button style="clear: all;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
     <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><%=link_to "Active" , players_path(sort: "active" , search: params[:search] ?  params[:search] : nil)  , remote: true%></li>

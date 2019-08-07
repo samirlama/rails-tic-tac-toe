@@ -5,3 +5,27 @@
 .active {
     color: green;
 }
+
+.inactive {
+    color: red;
+}
+
+.toggle {
+    position: relative;
+    left: 60px;
+    bottom: 30px;
+}
+
+h4 {
+    position: relative;
+    right: 20px;
+    top: 35px;
+}
+
+.dropdown-toggle {
+    margin-left: 50px;
+}
+
+.game-wrapper {
+    text-align: center;
+}
