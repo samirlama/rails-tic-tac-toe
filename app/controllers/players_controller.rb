@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
             format.js {}
         end
     end
-    
+
     def create
         @new_player = Player.new(player_params)
         @game_player = Player.find_by(username: player_params[:username]) 
