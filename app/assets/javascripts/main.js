@@ -201,9 +201,9 @@ $(function () {
             game_player1 = player1;
             game_player2 = player2;
             if (game_player1 == game_player2) {
-                $('.player-status').text("Waiting");
+                $('.player_status').text("Waiting");
             } else {
-                $('.player-status').text("Game Started");
+                $('.player_status').text("Game Started");
             }
         }
 
