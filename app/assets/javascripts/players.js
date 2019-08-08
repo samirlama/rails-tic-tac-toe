@@ -87,9 +87,6 @@ $(document).on('turbolinks:load', function () {
                     $(self).closest('.player-status').children('span').text("Active");
                     $(self).closest('.player-status').children('span').removeClass().addClass('active');
                 })
-
-
         }
     })
-
 });
