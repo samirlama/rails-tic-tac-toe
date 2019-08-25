@@ -17,6 +17,8 @@ class Gameplayer < ApplicationRecord
             result = result.order("win asc")
         end
         result
-    end   
+    end
+    
+    scope :game_now -> { where(game_id: current_game.id) }
      
 end

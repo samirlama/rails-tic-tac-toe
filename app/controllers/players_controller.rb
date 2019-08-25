@@ -1,22 +1,12 @@
 class PlayersController < ApplicationController
     def index
-       
-       
-       @players = Player.all.order("username ASC").paginate(page: params[:page], per_page: 2)
+       @players = Player.all.order("username ASC")
        unless params[:search].nil?
-            @players = Player.all.order("username ASC").where('username LIKE ?' , "%#{params[:search]}%").paginate(page: params[:page], per_page: 2)
-            # binding.pry
+            @players = @players.where('username LIKE ?' , "%#{params[:search]}%")
        end
-       unless params[:sort].nil?
-            if params[:sort] == "active"
-                @players = Player.all.order("username ASC").where(status: true).paginate(page: params[:page], per_page: 2)
-               
-            else
-                @players = Player.all.order("username ASC").where(status: false).paginate(page: params[:page], per_page: 2)
-                
-            end
+       @players = @players.where(status: params[:sort] == "active" ? true : false)  unless params[:sort].nil?
 
-        end
+        @players = @players.paginate(page: params[:page], per_page: 2)
 
        respond_to do |format|
             format.html {}

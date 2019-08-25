@@ -54,7 +54,6 @@ $(document).on('turbolinks:load', function () {
 
     //palyer status changed with toggle button with ajax
     $(document).on('click', '.toggle', function () {
-
         self = this
         var user_name = $(this).closest('.player-status').siblings('.player-name').text();
         if ($(this).closest('.player-status').find('span').text() == "Active") {
@@ -71,10 +70,7 @@ $(document).on('turbolinks:load', function () {
                     $(self).closest('.player-status').children('span').text("Inactive")
                     $(self).closest('.player-status').children('span').removeClass().addClass('inactive');
                 })
-
-
         } else {
-
             $.ajax({
                     url: "/players/update_status",
                     type: "PUT",
